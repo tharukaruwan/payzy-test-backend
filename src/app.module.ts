@@ -9,8 +9,8 @@ import dbconfig from './ormconfig';
 @Module({
   imports: [
     UsersModule,
-    TypeOrmModule.forRoot(dbconfig),
     ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(dbconfig),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,13 +7,12 @@ This is the backend service for Payzy, a fintech company. It is built using Nest
 - [Getting Started](#getting-started)
   - [1. Environment Variables](#1-environment-variables)
   - [2. Development Server](#2-development-server)
-  - [3. Docker Build](#3-docker-build)
-  - [4. Docker Run](#4-docker-run)
+  - [3. Docker Build and Run](#3-docker-build-and-run)
 
 ## Prerequisites
 Before setting up the backend service, ensure you have the following dependencies installed:
 - Node.js (version 12 or above)
-- Docker (optional, for running the service in a containerized environment)
+- Docker (optional, for containerization)
 
 ## Getting Started
 Follow the instructions below to set up and run the Payzy Test Backend service.
@@ -41,7 +40,7 @@ Follow the instructions below to set up and run the Payzy Test Backend service.
    ```
    The backend service will be up and running on `http://localhost:3001` by default.
 
-### 3. Docker Build
+### 3. Docker Build and Run
 1. Ensure you have Docker installed and running on your system.
 2. Open a terminal and navigate to the project directory.
 3. Run the following command to build the Docker image:
@@ -49,15 +48,14 @@ Follow the instructions below to set up and run the Payzy Test Backend service.
    docker build -t payzy-test-backend .
    ```
    This will build a Docker image named `payzy-test-backend` using the provided Dockerfile.
-
-### 4. Docker Run
-1. After successfully building the Docker image, you can run the backend service inside a Docker container.
-2. Use the following command to start a container:
+4. To run the Docker container, execute the following command:
    ```
-   docker run --name payzy-test-backend-container -p 3001:3001 -d payzy-test-backend
+   docker run -d --add-host host.docker.internal:host-gateway -p 3001:3001 payzy-test-backend
    ```
-   This command creates a Docker container named `payzy-test-backend-container` from the `payzy-test-backend` image and maps port 3000 of the container to port 3000 of the host machine.
+   This command starts the container using the `payzy-test-backend` image and maps port 3001 of the container to port 3001 of the host machine. The `--add-host` flag is used to enable database access from the container to the local PC when using a PostgreSQL database.
 
-Congratulations! You have successfully set up and run the Payzy Test Backend service. Feel free to integrate it with the frontend application, which is developed using Next.js, and test the complete system.
+Note: If you are not using a PostgreSQL database in your local PC, you can remove the `--add-host` flag and the `host.docker.internal:host-gateway` argument from the `docker run` command.
 
-For any questions or issues, please contact Thruka Ruwna at tharukaruwan@outlook.com.
+Congratulations! You have successfully set up and run the Payzy Test Backend service. Feel free to integrate it with the frontend application, developed using Next.js, and test the complete system.
+
+For any questions or issues, please contact Thruka Ruwna at tharukaruwan@outlook.com

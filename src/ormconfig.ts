@@ -4,7 +4,7 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 
 const dbconfig: PostgresConnectionOptions = {
   type: 'postgres',
-  host: 'localhost',
+  host: 'host.docker.internal',
   port: 5432,
   username: 'postgres',
   password: '1234',
