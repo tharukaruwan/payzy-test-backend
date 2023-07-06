@@ -18,11 +18,6 @@ export class UsersService {
     return await this.userRepo.save(user);
   }
 
-  findAll() {
-    // return await this.userRepo.;
-    return 'OK';
-  }
-
   async findByEmail(email: string) {
     try {
       return await this.userRepo.findOne({ where: { email: email } });
@@ -52,10 +47,6 @@ export class UsersService {
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 
   async comparePassword(candidatePassword: string, password: string) {

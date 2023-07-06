@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   ParseIntPipe,
   NotFoundException,
   ValidationPipe,
@@ -18,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ChangePasswordDto } from './dto/update-password-user.dto';
 import { UsersGuard } from './users.guard';
+import { omit } from 'lodash';
 
 @Controller('users')
 export class UsersController {
@@ -26,7 +26,8 @@ export class UsersController {
   @Post()
   create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     try {
-      return this.usersService.create(createUserDto);
+      const user = this.usersService.create(createUserDto);
+      return omit(user, 'password');
     } catch (err) {
       throw new NotFoundException();
     }
@@ -44,7 +45,7 @@ export class UsersController {
       if (!isValid) throw new ForbiddenException();
       const accessToken = this.usersService.signAccessTocken(user.email);
       return {
-        user,
+        user: omit(user, 'password'),
         accessToken,
       };
     } catch (err) {
@@ -68,15 +69,11 @@ export class UsersController {
     return this.usersService.changePassword(id, changePasswordDto.password);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     try {
-      return this.usersService.findOne(id);
+      const user = this.usersService.findOne(id);
+      return omit(user, 'password');
     } catch (err) {
       throw new NotFoundException();
     }
@@ -88,10 +85,5 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.update(id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
   }
 }

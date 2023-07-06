@@ -1,22 +1,15 @@
-# Base image
-# FROM node:18
-# FROM node:16-alpine
-FROM node:latest
+FROM node:16.13.2-alpine
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Bundle app source
+COPY package*.json ./
+
+RUN npm ci
+
 COPY . .
 
-# Install app dependencies
-RUN npm install
-
-# Creates a "dist" folder with the production build
 RUN npm run build
 
-EXPOSE 3001
+EXPOSE 3000
 
-# Start the server using the production build
-# CMD [ "node", "dist/main.js" ]
-CMD [ "npm", "run", "start:prod" ]
+CMD ["node", "dist/main"]
